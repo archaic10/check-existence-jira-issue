@@ -1,0 +1,17 @@
+name: 'Check existence jira issue'
+description: 'Check the jira for an issue'
+inputs:
+  GITHUB_TOKEN:
+    description: 'GitHub token'  
+  url-jira:
+    description: 'url jira'
+    required: true
+  basic-auth:
+    description: 'jira authentication'
+    required: true
+outputs:
+  result:
+    description: 'finished process'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
