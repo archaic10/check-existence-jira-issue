@@ -11482,27 +11482,28 @@ const axios = __nccwpck_require__(5462)
 
 async function run(){
     try{
-        let url = core.getInput('url')
+        let url = core.getInput('url-jira')
         let basic_auth = core.getInput('basic_auth')
-        let status  = await axios.get(url,
-            {
-                headers: {
-                  Authorization: basic_auth,
-                }
-        
-        }).then((res) => {
-            console.log(res)
-            core.setOutput("result", "The issue was found successfully!")
-        })
-        console.log("response")
-        console.log(status)
-        console.log(status.status)
-        
+        await verifyJiraIssue(url, basic_auth)
     }catch(error){
         core.setFailed(error.message)
     }    
 }
 run()
+
+async function verifyJiraIssue(url, basic_auth){
+    await axios.get(url,
+        {
+            headers: {
+              Authorization: basic_auth,
+            }
+    
+    }).then((res) => {
+        core.setOutput("result", "The issue was found successfully!")
+    }).catch((err) => {
+        core.setFailed("The Issue not found!")
+    })
+}
 })();
 
 module.exports = __webpack_exports__;
